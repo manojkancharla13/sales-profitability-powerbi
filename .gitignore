@@ -1,0 +1,15 @@
+# Personal learning notes and voice recordings (not part of the portfolio)
+learning/
+
+# Database files never go in Git - rebuild the database with sql/00_restore.sql
+*.bak
+*.mdf
+*.ldf
+
+# Power BI Project (.pbip) local settings and data cache - not source code
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Windows clutter
+Thumbs.db
+desktop.ini
