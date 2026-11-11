@@ -43,13 +43,45 @@ GROUP BY t.name
 ORDER BY [RowCount] DESC;
 
 
--- 2) YOUR TURN: list every row of DimSalesTerritory.
---    How many rows are there, and which one is not a real territory?
+-- 2) List every row of DimSalesTerritory.
+SELECT SalesTerritoryKey,
+       SalesTerritoryAlternateKey,
+       SalesTerritoryRegion,
+       SalesTerritoryCountry,
+       SalesTerritoryGroup
+FROM dbo.DimSalesTerritory
+ORDER BY SalesTerritoryKey;
+-- Finding: 11 rows = 10 real territories + 1 placeholder.
+--   SalesTerritoryKey 11 (alternate key 0) has 'NA' in every column: an
+--   "unknown / not applicable" member added by the warehouse. No sales point
+--   to it; only employees without a sales territory do.
+--   => "10 sales territories" on the resume is correct.
 
 
+-- 3) How many distinct products actually appear in FactInternetSales?
+SELECT COUNT(DISTINCT ProductKey) AS ProductsSoldOnline
+FROM dbo.FactInternetSales;
+-- Finding: 158 products sold online, but DimProduct has 606 rows.
 
--- 3) YOUR TURN: how many distinct products actually appear in FactInternetSales?
---    Compare it with the DimProduct row count. Why are they different?
---    Hint: COUNT(DISTINCT ...)
+-- 3b) Why the difference? DimProduct rows vs products sold online, by category.
+SELECT ISNULL(c.EnglishProductCategoryName, '(no subcategory)') AS Category,
+       COUNT(*)            AS DimProductRows,
+       COUNT(s.ProductKey) AS SoldOnline
+FROM dbo.DimProduct AS p
+LEFT JOIN dbo.DimProductSubcategory AS sc ON sc.ProductSubcategoryKey = p.ProductSubcategoryKey
+LEFT JOIN dbo.DimProductCategory    AS c  ON c.ProductCategoryKey     = sc.ProductCategoryKey
+LEFT JOIN (SELECT DISTINCT ProductKey FROM dbo.FactInternetSales) AS s
+       ON s.ProductKey = p.ProductKey
+GROUP BY c.EnglishProductCategoryName
+ORDER BY DimProductRows DESC;
+-- Findings:
+--   * 209 rows have no subcategory: raw parts used in manufacturing, never sold.
+--   * 189 Components are sold only through resellers (bike shops), never online.
+--   * Bikes 116 + Clothing 20 + Accessories 22 = 158 sold online.
 
-
+-- 3c) DimProduct keeps price/cost history (slowly changing dimension type 2),
+--     so one product can have several rows.
+SELECT COUNT(*)                            AS DimProductRows,
+       COUNT(DISTINCT ProductAlternateKey) AS UniqueProducts
+FROM dbo.DimProduct;
+-- Finding: 606 rows but only 504 unique products.

@@ -1,0 +1,59 @@
+table Territory
+	lineageTag: b34ad5cd-b0be-4eef-a633-0c95fcd18b5c
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 69526187-10c0-4fcc-9437-66a885aed267
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 29ce6fe3-08e4-42af-8ce1-4ddd79fd7b30
+		summarizeBy: none
+		sourceColumn: Region
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 438b2863-7eaf-45a5-b50e-46359b3c15f3
+		summarizeBy: none
+		dataCategory: Country
+		sourceColumn: Country
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryGroup
+		dataType: string
+		lineageTag: e927abe0-e80d-4116-813c-5ff174010e38
+		summarizeBy: none
+		sourceColumn: TerritoryGroup
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Territory = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Database("localhost", "AdventureWorksDW2022"),
+				  #"Navigation 1" = Source{[Schema = "rpt", Item = "vw_DimTerritory"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,16 @@
+relationship AutoDetected_30c0e9d5-3be6-4cb1-966d-07456ae1f26a
+	fromColumn: Sales.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship AutoDetected_b0182282-831a-4aa2-bac2-4647d0275f58
+	fromColumn: Sales.ProductKey
+	toColumn: Product.ProductKey
+
+relationship AutoDetected_8a133412-97d6-4c5d-bf38-e1824816f90e
+	fromColumn: Sales.SalesTerritoryKey
+	toColumn: Territory.SalesTerritoryKey
+
+relationship be949c46-f514-7698-4499-c2b1d6685295
+	fromColumn: Sales.OrderDate
+	toColumn: Date.Date
+

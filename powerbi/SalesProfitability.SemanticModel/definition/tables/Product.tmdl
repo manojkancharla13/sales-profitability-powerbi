@@ -1,0 +1,117 @@
+table Product
+	lineageTag: 15ec190b-fa90-4eb1-9b13-c7a877a643c8
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2892aa3a-f69e-495f-afc8-30248bfe832d
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 47050687-4fc4-4ceb-ac78-bbf03f1bc536
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 30e125c4-6b66-4643-8e24-352e0de83d1e
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: 2e6b1ef0-51b6-45bf-b674-4acc45f53f35
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: fd8060c0-1af8-46b5-bb2f-8224cb1fac75
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: fd6dfd45-b8f6-43a7-b1d4-34efed169c87
+		summarizeBy: none
+		sourceColumn: ModelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: 45d8d05a-cf16-4cd8-8d0a-31ef8f3d7d2e
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a538c31e-61c2-4ecf-9942-38805e3c4a4d
+		summarizeBy: none
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column StandardCost
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2361edc7-90df-4556-bce7-6a65e88786f9
+		summarizeBy: none
+		sourceColumn: StandardCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductStatus
+		dataType: string
+		lineageTag: fb93675e-7750-4dc7-bf42-c39ca0837a86
+		summarizeBy: none
+		sourceColumn: ProductStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: a17e1f83-a554-4f20-a8dc-31efe8fae441
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Database("localhost", "AdventureWorksDW2022"),
+				  #"Navigation 1" = Source{[Schema = "rpt", Item = "vw_DimProduct"]}[Data],
+				  #"Renamed columns" = Table.RenameColumns(#"Navigation 1", {{"ProductAlternateKey", "ProductCode"}, {"EnglishProductName", "ProductName"}, {"EnglishProductSubcategoryName", "Subcategory"}, {"EnglishProductCategoryName", "Category"}, {"Status", "ProductStatus"}}),
+				  #"Replaced value" = Table.ReplaceValue(#"Renamed columns", null, "Unknown", Replacer.ReplaceValue, {"Subcategory", "Category", "ModelName"}),
+				  #"Replaced value 1" = Table.ReplaceValue(#"Replaced value", "NA", "No Color", Replacer.ReplaceValue, {"Color"}),
+				  #"Trimmed text" = Table.TransformColumns(#"Replaced value 1", {{"ProductLine", each Text.Trim(_), type nullable text}}),
+				  #"Inserted conditional column" = Table.AddColumn(#"Trimmed text", "ProductLineName", each if [ProductLine] = "R" then "Road" else if [ProductLine] = "M" then "Mountain" else if [ProductLine] = "T" then "Touring" else if [ProductLine] = "S" then "Standard" else "Unknown"),
+				  #"Removed columns" = Table.RemoveColumns(#"Inserted conditional column", {"ProductLine"}),
+				  #"Renamed columns 1" = Table.RenameColumns(#"Removed columns", {{"ProductLineName", "ProductLine"}}),
+				  #"Replaced value 2" = Table.ReplaceValue(#"Renamed columns 1", null, "Historical", Replacer.ReplaceValue, {"ProductStatus"}),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Replaced value 2", {{"ProductLine", type text}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

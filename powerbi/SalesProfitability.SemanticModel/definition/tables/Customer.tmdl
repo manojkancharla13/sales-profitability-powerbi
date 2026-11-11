@@ -1,0 +1,202 @@
+table Customer
+	lineageTag: 0484d5ca-c389-4b92-b8a7-54a7edb3312f
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a9142da5-c055-43d3-8c64-704ca8214266
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerCode
+		dataType: string
+		lineageTag: e313d145-84c7-42c0-9efb-13a1d55bc09f
+		summarizeBy: none
+		sourceColumn: CustomerCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 35854db5-f508-4c38-b29b-69c4e95c79af
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 5718ef65-623e-4cae-b6bd-d35c995346ca
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaritalStatus
+		dataType: string
+		lineageTag: d5a516a2-31b3-4c54-b858-de2418ada929
+		summarizeBy: none
+		sourceColumn: MaritalStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7be3db15-7b24-4db1-8119-a2ee16270980
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: b41e5afd-a767-4abc-b67d-bb6bba7db99d
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = User
+
+	column YearlyIncome
+		dataType: decimal
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: ca17f588-30c8-4db4-8193-cfca3613feb2
+		summarizeBy: none
+		sourceColumn: YearlyIncome
+
+		annotation SummarizationSetBy = User
+
+
+	column Education
+		dataType: string
+		lineageTag: 5675f2b4-1493-4c1c-a34c-ef2a2a7d670f
+		summarizeBy: none
+		sourceColumn: Education
+
+		annotation SummarizationSetBy = Automatic
+
+	column Occupation
+		dataType: string
+		lineageTag: 20859c31-7cfa-4486-8e9c-c5a23fd5a09f
+		summarizeBy: none
+		sourceColumn: Occupation
+
+		annotation SummarizationSetBy = Automatic
+
+	column HomeOwner
+		dataType: string
+		lineageTag: 25e850f3-ac81-471c-b6c6-8ba0c10750bc
+		summarizeBy: none
+		sourceColumn: HomeOwner
+
+		annotation SummarizationSetBy = Automatic
+
+	column CarsOwned
+		dataType: int64
+		formatString: 0
+		lineageTag: 17b76c3c-df7a-4e6e-8b48-7dde89f9771e
+		summarizeBy: none
+		sourceColumn: CarsOwned
+
+		annotation SummarizationSetBy = User
+
+	column TotalChildren
+		dataType: int64
+		formatString: 0
+		lineageTag: 90539274-2cf2-4f26-968d-cd4eeca7cc47
+		summarizeBy: none
+		sourceColumn: TotalChildren
+
+		annotation SummarizationSetBy = User
+
+	column CommuteDistance
+		dataType: string
+		lineageTag: b26757f6-53c4-4e7a-ac24-3b4e0af67d7f
+		summarizeBy: none
+		sourceColumn: CommuteDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 7867dbe6-c3d2-47cb-a6ab-3db59b521720
+		summarizeBy: none
+		dataCategory: City
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvince
+		dataType: string
+		lineageTag: 0ddfeeb2-622d-41e2-a04a-46f419fe0bc8
+		summarizeBy: none
+		dataCategory: StateOrProvince
+		sourceColumn: StateProvince
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: d9544b2d-ed0e-43e1-9dd5-c67b2c234c68
+		summarizeBy: none
+		dataCategory: Country
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstPurchaseDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8b344b42-5576-41b9-991f-97c4ee7629c5
+		summarizeBy: none
+		sourceColumn: FirstPurchaseDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AgeGroup
+		dataType: string
+		lineageTag: a34a1538-3d3e-4341-9467-2af70c625a75
+		summarizeBy: none
+		sourceColumn: AgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncomeBand
+		dataType: string
+		lineageTag: a00697cd-adc0-44b1-a306-5926fb0cae5e
+		summarizeBy: none
+		sourceColumn: IncomeBand
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Database("localhost", "AdventureWorksDW2022"),
+				  #"Navigation 1" = Source{[Schema = "rpt", Item = "vw_DimCustomer"]}[Data],
+				  Custom = #"Navigation 1",
+				  #"Replaced value" = Table.ReplaceValue(Custom, "M", "Male", Replacer.ReplaceText, {"Gender"}),
+				  #"Replaced value 1" = Table.ReplaceValue(#"Replaced value", "F", "Female", Replacer.ReplaceText, {"Gender"}),
+				  #"Replaced value 2" = Table.ReplaceValue(#"Replaced value 1", "M", "Married", Replacer.ReplaceText, {"MaritalStatus"}),
+				  #"Replaced value 3" = Table.ReplaceValue(#"Replaced value 2", "S", "Single", Replacer.ReplaceText, {"MaritalStatus"}),
+				  #"Replaced value 4" = Table.ReplaceValue(#"Replaced value 3", "1", "Yes", Replacer.ReplaceText, {"HomeOwner"}),
+				  #"Replaced value 5" = Table.ReplaceValue(#"Replaced value 4", "0", "No", Replacer.ReplaceText, {"HomeOwner"}),
+				  #"Inserted conditional column" = Table.AddColumn(#"Replaced value 5", "AgeGroup", each if [Age] < 30 then "Under 30" else if [Age] < 40 then "30-39" else if [Age] < 50 then "40-49" else if [Age] < 60 then "50-59" else "60+", type text),
+				  #"Inserted conditional column 1" = Table.AddColumn(#"Inserted conditional column", "IncomeBand", each if [YearlyIncome] < 40000 then "Low (<40K)" else if [YearlyIncome] < 80000 then "Middle (40K-80K)" else "High (80K+)"),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Inserted conditional column 1", {{"AgeGroup", type text}, {"IncomeBand", type text}, {"CarsOwned", Int64.Type}, {"TotalChildren", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,173 @@
+table Sales
+	lineageTag: bda44b7e-5bd3-4745-842a-83184e07e262
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: c8ada26e-9e94-4175-b50b-314a102ae1aa
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 41eb93ac-16de-4d1f-b7d4-3a3c19483c10
+		summarizeBy: none
+		sourceColumn: SalesOrderLineNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column OrderDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: cb4ce4bf-c45b-4d68-8032-8b6e1132cde3
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ShipDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 4fd21113-fdb3-446a-b4ce-9f9783d2ba1c
+		summarizeBy: none
+		sourceColumn: ShipDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DueDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 48317c38-16c4-4f47-88e2-7f1db882df34
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: daa8d0a5-aa50-4c31-8fa4-2f99aeaa5de0
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d6483fdc-c751-4960-bda2-0b33a4f5e797
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9590145a-60c3-47c1-818a-1ba5daed507f
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 5358c552-5f92-41c0-95ab-6d9ee76f12d4
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a7d346ec-dc4d-4762-8fb7-8b6c11d8885b
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesAmount
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 94d834b2-f97f-4e50-89da-0fb3966b3420
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalProductCost
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a13988c8-2730-47a8-b1f2-a9683ac45cec
+		summarizeBy: sum
+		sourceColumn: TotalProductCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Profit
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 4a4f3a90-31c8-4c26-af5c-8f7fa215036f
+		summarizeBy: sum
+		sourceColumn: Profit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Database("localhost", "AdventureWorksDW2022"),
+				  #"Navigation 1" = Source{[Schema = "rpt", Item = "vw_FactSales"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"SalesOrderLineNumber", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

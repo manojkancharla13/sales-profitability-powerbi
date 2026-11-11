@@ -1,0 +1,5 @@
+USE AdventureWorksDW2022;
+GO
+IF SCHEMA_ID(N'rpt') IS NULL
+    EXEC (N'CREATE SCHEMA rpt');
+GO
