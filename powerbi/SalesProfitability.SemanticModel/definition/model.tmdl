@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["Customer","Date","Product","Territory","Sales","_Measures"]
+annotation PBI_QueryOrder = ["Customer","Date","Product","Territory","Sales","_Measures","Top N"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -19,6 +19,11 @@ ref table Product
 ref table Territory
 ref table Sales
 ref table _Measures
+ref table 'Top N'
+
+ref role 'North America'
+ref role Europe
+ref role Pacific
 
 ref cultureInfo en-IN
 

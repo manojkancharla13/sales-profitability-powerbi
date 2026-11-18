@@ -1,0 +1,7 @@
+role 'North America'
+	modelPermission: read
+
+	tablePermission Territory = [TerritoryGroup] = "North America"
+
+	annotation PBI_Id = d1f40876c369421f977c96c8dfb97d01
+

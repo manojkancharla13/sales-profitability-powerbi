@@ -1,0 +1,7 @@
+role Europe
+	modelPermission: read
+
+	tablePermission Territory = [TerritoryGroup] = "Europe"
+
+	annotation PBI_Id = 9537a4db119c4b07ab638f9c45d07674
+
