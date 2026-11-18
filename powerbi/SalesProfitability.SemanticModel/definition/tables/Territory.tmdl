@@ -26,8 +26,8 @@ table Territory
 	column Country
 		dataType: string
 		lineageTag: 438b2863-7eaf-45a5-b50e-46359b3c15f3
-		summarizeBy: none
 		dataCategory: Country
+		summarizeBy: none
 		sourceColumn: Country
 
 		changedProperty = IsHidden

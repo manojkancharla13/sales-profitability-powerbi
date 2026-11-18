@@ -1,0 +1,80 @@
+table _Measures
+	lineageTag: 48e6cf8f-360c-48e2-ace7-0ad0087709d2
+
+	measure 'Total Sales' = SUM ( Sales[SalesAmount] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 1aeef11a-d29b-462f-a8d8-500b81818ec0
+
+	measure 'Total Cost' = SUM ( Sales[TotalProductCost] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 518f8eab-252d-4a0c-9341-f680c096e1f3
+
+	measure 'Gross Profit' = SUMX ( Sales, Sales[SalesAmount] - Sales[TotalProductCost] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 309a9352-6359-4885-a5a4-ac6bef276627
+
+	measure 'Profit Margin %' = DIVIDE ( [Gross Profit], [Total Sales] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8a6e95ff-66da-400b-87bd-5dc5d5f83e1d
+
+	measure 'Order Count' = DISTINCTCOUNT ( Sales[SalesOrderNumber] )
+		formatString: #,0
+		lineageTag: f32948a9-a1dc-4ad3-96fa-644d65440061
+
+	measure 'Units Sold' = SUM ( Sales[Quantity] )
+		formatString: #,0
+		lineageTag: af082a2e-2b38-45eb-b9b1-be24d9ee2db5
+
+	measure 'Customer Count' = DISTINCTCOUNT ( Sales[CustomerKey] )
+		formatString: #,0
+		lineageTag: 775761a0-de11-4a5f-b2e7-0216bd99850f
+
+	measure 'Avg Order Value' = DIVIDE ( [Total Sales], [Order Count] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 5a8be587-f768-49d7-8b7e-9d359f11c9e7
+
+	measure 'Sales LY' =
+			
+			CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 83bfa866-a9b3-429a-be75-0a5582f49394
+
+	measure 'YoY Growth %' =
+			
+			DIVIDE ( [Total Sales] - [Sales LY], [Sales LY] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 97048e84-469c-4726-8930-3aa2a839b656
+
+	measure 'Sales YTD' = TOTALYTD ( [Total Sales], 'Date'[Date] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: f2eaa89f-d804-42df-be41-080566b2fd5b
+
+	measure 'Sales QTD' = TOTALQTD ( [Total Sales], 'Date'[Date] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 3d76038c-9a76-459f-aaaa-7d7c7a258d08
+
+
+	measure 'Sales MTD' = TOTALMTD ( [Total Sales], 'Date'[Date] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 7a08465e-d6ab-40f7-9e00-0ca1b97b0e97
+
+
+	measure 'Running Total' =
+			
+			CALCULATE (
+			    [Total Sales],
+			    FILTER ( ALL ( 'Date'[Date] ), 'Date'[Date] <= MAX ( 'Date'[Date] ) )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: ba63d992-f86b-43ef-a35b-a4e7ba938b90
+
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Column1"})
+				in
+				  #"Removed Columns"
+

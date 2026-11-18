@@ -74,7 +74,6 @@ table Customer
 
 		annotation SummarizationSetBy = User
 
-
 	column Education
 		dataType: string
 		lineageTag: 5675f2b4-1493-4c1c-a34c-ef2a2a7d670f
@@ -128,8 +127,8 @@ table Customer
 	column City
 		dataType: string
 		lineageTag: 7867dbe6-c3d2-47cb-a6ab-3db59b521720
-		summarizeBy: none
 		dataCategory: City
+		summarizeBy: none
 		sourceColumn: City
 
 		annotation SummarizationSetBy = Automatic
@@ -137,8 +136,8 @@ table Customer
 	column StateProvince
 		dataType: string
 		lineageTag: 0ddfeeb2-622d-41e2-a04a-46f419fe0bc8
-		summarizeBy: none
 		dataCategory: StateOrProvince
+		summarizeBy: none
 		sourceColumn: StateProvince
 
 		annotation SummarizationSetBy = Automatic
@@ -146,8 +145,8 @@ table Customer
 	column Country
 		dataType: string
 		lineageTag: d9544b2d-ed0e-43e1-9dd5-c67b2c234c68
-		summarizeBy: none
 		dataCategory: Country
+		summarizeBy: none
 		sourceColumn: Country
 
 		annotation SummarizationSetBy = Automatic
