@@ -1,0 +1,60 @@
+{
+  "name": "Sales Profitability",
+  "dataColors": [
+    "#1F4E79",
+    "#2E86DE",
+    "#17A589",
+    "#F5B041",
+    "#C0392B",
+    "#8E44AD",
+    "#7F8C8D",
+    "#48C9B0"
+  ],
+  "foreground": "#1B2631",
+  "background": "#FFFFFF",
+  "tableAccent": "#1F4E79",
+  "good": "#17A589",
+  "neutral": "#F5B041",
+  "bad": "#C0392B",
+  "visualStyles": {
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F4F6F9"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "*": {
+      "*": {
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#E5E8EC"
+              }
+            },
+            "radius": 8
+          }
+        ],
+        "title": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#1B2631"
+              }
+            },
+            "fontSize": 11
+          }
+        ]
+      }
+    }
+  }
+}

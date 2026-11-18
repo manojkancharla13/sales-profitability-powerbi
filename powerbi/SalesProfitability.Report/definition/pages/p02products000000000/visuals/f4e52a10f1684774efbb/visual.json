@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "f4e52a10f1684774efbb",
+  "position": {
+    "x": 278,
+    "y": 78,
+    "z": 3000,
+    "height": 96,
+    "width": 246,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Bike Accessory Attach %"
+                }
+              },
+              "queryRef": "_Measures.Bike Accessory Attach %",
+              "nativeQueryRef": "Bike Accessory Attach %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

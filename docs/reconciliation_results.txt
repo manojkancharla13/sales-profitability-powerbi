@@ -1,0 +1,38 @@
+
+Check                          PowerBI         SQL             Result
+-----                          -------         ---             ------
+Total Sales                    29,358,677.2207 29,358,677.2207 PASS  
+Total Cost                     17,277,793.5757 17,277,793.5757 PASS  
+Gross Profit                   12,080,883.6450 12,080,883.6450 PASS  
+Profit Margin %                0.4115          0.4114          PASS  
+Order Count                    27,659.0000     27,659.0000     PASS  
+Customer Count                 18,484.0000     18,484.0000     PASS  
+Units Sold                     60,398.0000     60,398.0000     PASS  
+Avg Order Value                1,061.4511      1,061.4511      PASS  
+Bikes Share %                  0.9646          0.9645          PASS  
+Accessories Margin %           0.6260          0.6259          PASS  
+Bikes Margin %                 0.4063          0.4063          PASS  
+Sales 2013                     16,351,550.3400 16,351,550.3400 PASS  
+Sales LY (2013)                5,842,485.1952  5,842,485.1952  PASS  
+YoY Growth % (2013)            1.7987          1.7987          PASS  
+Sales YTD (Jun-2013)           6,652,739.5200  6,652,739.5200  PASS  
+Sales QTD (Jun-2013)           3,973,793.4800  3,973,793.4800  PASS  
+Sales MTD (Jun-2013)           1,643,177.7800  1,643,177.7800  PASS  
+Running Total (end 2012)       12,961,432.1607 12,961,432.1607 PASS  
+Europe Sales                   8,930,042.2634  8,930,042.2634  PASS  
+New Customers (2013)           12,523.0000     12,523.0000     PASS  
+Returning Customers (2013)     4,906.0000      4,906.0000      PASS  
+Bike Accessory Attach % (2013) 0.7409          0.7409          PASS  
+
+
+22 of 22 checks passed
+
+Row-level security (connect with Roles=<role>):
+
+Role          VisibleGroups PowerBI       SQL           Result
+----          ------------- -------       ---           ------
+North America             1 11,367,634.37 11,367,634.37 PASS  
+Europe                    1 8,930,042.26  8,930,042.26  PASS  
+Pacific                   1 9,061,000.58  9,061,000.58  PASS  
+
+
